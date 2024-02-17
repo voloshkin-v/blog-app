@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { prisma } from '@/lib/db';
 
 import { PostList } from '@/components/posts/post-list';
+import { PopularTopics } from '@/components/topics/popular-topics';
 
 export default async function Home() {
     return (
@@ -10,20 +11,8 @@ export default async function Home() {
                 <PostList />
             </main>
 
-            <aside className="-mt-8 flex-1 border-l bg-red-50 pt-8">
-                <div>
-                    <h2>Popular topics</h2>
-
-                    <ul>
-                        <li>
-                            <Link href="##">Topic 1</Link>
-                        </li>
-
-                        <li>
-                            <Link href="##">Topic 1</Link>
-                        </li>
-                    </ul>
-                </div>
+            <aside className="sidebar">
+                <PopularTopics />
             </aside>
         </div>
     );

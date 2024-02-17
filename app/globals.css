@@ -97,3 +97,9 @@ body {
         @apply flex items-center gap-2;
     }
 }
+
+@layer components {
+    .sidebar {
+        @apply -mt-8 flex-1 space-y-10 border-l p-8;
+    }
+}

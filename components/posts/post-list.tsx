@@ -2,8 +2,9 @@ import Link from 'next/link';
 import { prisma } from '@/lib/db';
 
 import { ProfileImage } from '@/components/author/profile-image';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 import { currentUser } from '@/lib/session';
+import { TopicItem } from '@/components/topics/topic-item';
 
 export const PostList = async () => {
     const user = await currentUser();
@@ -30,7 +31,7 @@ export const PostList = async () => {
                 <article key={post.id} className="flex items-center gap-10">
                     <div className="space-y-4">
                         <div className="row">
-                            <Link href={`##`} className="row hover:underline">
+                            <Link href={`/${post.authorId}`} className="row hover:underline">
                                 <ProfileImage
                                     src={post.author.image}
                                     alt={`${post.author.name}'s profile picture`}
@@ -56,18 +57,25 @@ export const PostList = async () => {
                             </Link>
                         </div>
 
-                        <div>
-                            <ul className="flex flex-wrap gap-2">
-                                {post.topics.map((topic) => (
-                                    <Button key={topic.id} variant="secondary" size="sm" asChild>
-                                        <Link href={topic.slug}>{topic.name}</Link>
-                                    </Button>
-                                ))}
-                            </ul>
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                                <div className="flex flex-wrap gap-2">
+                                    {post.topics.map((topic) => (
+                                        <TopicItem key={topic.id} topic={topic} size="sm" />
+                                    ))}
+                                </div>
+
+                                <span className="text-xs text-muted-foreground">5 mins read</span>
+                            </div>
+
+                            <div>
+                                <span>save</span>
+                                <span>more</span>
+                            </div>
                         </div>
                     </div>
 
-                    <div>Image</div>
+                    <div>img</div>
                 </article>
             ))}
         </div>

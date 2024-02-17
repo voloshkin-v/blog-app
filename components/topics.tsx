@@ -17,7 +17,7 @@ export const Topics = async () => {
                 {topics.map((topic) => (
                     <li key={topic.id}>
                         <Button asChild variant="outline" className="h-auto w-full p-4">
-                            <Link href={`/topic/${topic.slug}`}>
+                            <Link href={`/topic/${topic.id}`}>
                                 <span>{topic.name}</span>
                             </Link>
                         </Button>

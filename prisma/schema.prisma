@@ -51,12 +51,11 @@ model Post {
   authorId  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  topics    Topic[]
+  topics    Topic[] 
 }
 
 model Topic {
   id    String @id @default(cuid())
   name  String
-  slug  String
   posts Post[]
 }
