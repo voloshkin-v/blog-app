@@ -26,7 +26,8 @@ export default async function RootLayout({
                 <SessionProvider session={session}>
                     <Header />
 
-                    <div className="h-[calc(100vh-64px)]">{children}</div>
+                    <div className="pt-16">{children}</div>
+
                     <Toaster />
                 </SessionProvider>
             </body>

@@ -13,7 +13,7 @@ export const Header = async () => {
     const isAdmin = false; // todo: check ifis admin
 
     return (
-        <header className="flex min-h-16 border-b py-2">
+        <header className="fixed left-0 top-0 z-50 flex min-h-16 w-screen border-b bg-white py-2">
             <div className="container flex items-center">
                 <Logo />
 
