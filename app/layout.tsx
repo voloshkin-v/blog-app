@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import { Fredoka } from 'next/font/google';
 import { SessionProvider } from 'next-auth/react';
 import { auth } from '@/auth';
-import './globals.css';
-
-import { Header } from '@/components/header';
+import '@/app/globals.css';
+import { Header } from '@/app/header';
+import { Toaster } from '@/components/ui/toaster';
 
 const fredoka = Fredoka({ subsets: ['latin'] });
 
@@ -26,7 +26,8 @@ export default async function RootLayout({
                 <SessionProvider session={session}>
                     <Header />
 
-                    <div className="container h-full px-24 pt-8">{children}</div>
+                    <div className="h-[calc(100vh-64px)]">{children}</div>
+                    <Toaster />
                 </SessionProvider>
             </body>
         </html>

@@ -16,7 +16,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import { ProfileImage } from '../author/profile-image';
+import { AuthorImage } from '../author/author-image';
 
 export const UserButton = () => {
     const user = useCurrentUser();
@@ -24,7 +24,7 @@ export const UserButton = () => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>
-                <ProfileImage src={user?.image} />
+                <AuthorImage src={user?.image || ''} />
             </DropdownMenuTrigger>
 
             <DropdownMenuContent align="end">
@@ -36,14 +36,14 @@ export const UserButton = () => {
                 <DropdownMenuSeparator />
 
                 <DropdownMenuItem asChild className="cursor-pointer">
-                    <Link href="/profile">
+                    <Link href={`/author/${user?.id}`}>
                         <User className="mr-2 h-4 w-4" />
                         Profile
                     </Link>
                 </DropdownMenuItem>
 
                 <DropdownMenuItem asChild className="cursor-pointer">
-                    <Link href="/profile">
+                    <Link href="/saved">
                         <BookMarked className="mr-2 h-4 w-4" />
                         Saved
                     </Link>

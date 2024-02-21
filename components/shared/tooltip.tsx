@@ -1,6 +1,6 @@
-import { Tooltip as TooltipLib, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Button } from '@/components/ui/button';
 import { Info } from 'lucide-react';
+
+import { Tooltip as TooltipLib, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface Props {
     children: React.ReactNode;

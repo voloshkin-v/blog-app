@@ -12,15 +12,14 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  password      String?
-  emailVerified DateTime? @map("email_verified")
-  image         String?
-
-  posts    Post[]
-  accounts Account[]
+  id          String    @id @default(cuid())
+  name        String?
+  email       String    @unique
+  image       String?
+  description String?
+  posts       Post[]    @relation("WrittenPosts")
+  savedPosts  Post[]
+  accounts    Account[]
 }
 
 model Account {
@@ -43,19 +42,20 @@ model Account {
 }
 
 model Post {
-  id        String   @id @default(cuid())
-  title     String
-  content   String
-  published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  topics    Topic[] 
+  id          String   @id @default(cuid())
+  title       String
+  content     String
+  published   Boolean  @default(false)
+  author      User     @relation("WrittenPosts", fields: [authorId], references: [id])
+  authorId    String
+  savedByUser User[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  topics      Topic[]
 }
 
 model Topic {
   id    String @id @default(cuid())
-  name  String
+  name  String @unique
   posts Post[]
 }

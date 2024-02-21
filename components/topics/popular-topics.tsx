@@ -1,14 +1,13 @@
-import { prisma } from '@/lib/db';
-import { TopicItem } from '@/components/topics/topic-item';
 import Link from 'next/link';
-import { Tooltip } from '../shared/tooltip';
+import { topicsService } from '@/lib/services/topics';
+
+import { TopicItem } from '@/components/topics/topic-item';
+import { Tooltip } from '@/components/shared/tooltip';
 
 export const PopularTopics = async () => {
-    const popularTopics = await prisma.topic.findMany({
-        take: 8,
-    });
+    const popularTopics = await topicsService.findPopular(8);
 
-    if (!popularTopics.length) return null;
+    if (!popularTopics.length) return false;
 
     return (
         <div className="space-y-4">
@@ -22,6 +21,10 @@ export const PopularTopics = async () => {
                     <TopicItem key={topic.id} topic={topic} />
                 ))}
             </div>
+
+            <Link href="/topics" className="link-underline inline-block">
+                Explore all
+            </Link>
         </div>
     );
 };

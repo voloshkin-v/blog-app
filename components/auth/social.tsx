@@ -2,26 +2,26 @@
 
 import { signIn } from 'next-auth/react';
 import { FaGoogle, FaGithub } from 'react-icons/fa';
+import { DEFAULT_PAGE_REDIRECT } from '@/lib/constants/route';
 
 import { Button } from '@/components/ui/button';
 
 export const Social = () => {
+    const handleSignIn = (provider: 'google' | 'github') => {
+        signIn(provider, {
+            callbackUrl: DEFAULT_PAGE_REDIRECT,
+        });
+    };
+
     return (
-        <div className="w-full space-y-4">
-            <div className="relative flex items-center justify-center">
-                <div className="absolute w-full border"></div>
-                <div className="z-10 bg-white px-2 text-center text-xs uppercase">or continue with</div>
-            </div>
+        <div className="flex w-full flex-col gap-5">
+            <Button size="lg" variant="outline" className="w-full" onClick={() => handleSignIn('google')}>
+                <FaGoogle />
+            </Button>
 
-            <div className="flex gap-2">
-                <Button size="lg" variant="outline" className="w-full">
-                    <FaGoogle />
-                </Button>
-
-                <Button size="lg" variant="outline" className="w-full" onClick={() => signIn('github')}>
-                    <FaGithub />
-                </Button>
-            </div>
+            <Button size="lg" variant="outline" className="w-full" onClick={() => handleSignIn('github')}>
+                <FaGithub />
+            </Button>
         </div>
     );
 };

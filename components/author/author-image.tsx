@@ -1,17 +1,19 @@
 import { FaUser } from 'react-icons/fa';
+import { cn } from '@/lib/utils';
 
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 interface Props {
-    src: string | null | undefined;
+    src: string;
     alt?: string;
-    classNames?: string;
+    className?: string;
 }
 
-export const ProfileImage = ({ alt, classNames, src }: Props) => {
+export const AuthorImage = ({ alt, className, src }: Props) => {
     return (
-        <Avatar className={classNames}>
-            <AvatarImage src={src || ''} alt={alt || 'Profile picture'} />
+        <Avatar className={cn('border', className)}>
+            <AvatarImage src={src} alt={alt || 'Profile picture'} />
+
             <AvatarFallback>
                 <FaUser />
             </AvatarFallback>
