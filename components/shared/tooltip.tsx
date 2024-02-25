@@ -1,6 +1,7 @@
 import { Info } from 'lucide-react';
 
 import { Tooltip as TooltipLib, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Button } from '@/components/ui/button';
 
 interface Props {
     children: React.ReactNode;
@@ -11,7 +12,9 @@ export const Tooltip = ({ children }: Props) => {
         <TooltipProvider>
             <TooltipLib>
                 <TooltipTrigger asChild>
-                    <Info className="h-4 w-4 cursor-pointer" />
+                    <Button variant="ghost" size="icon">
+                        <Info className="h-4 w-4" />
+                    </Button>
                 </TooltipTrigger>
 
                 <TooltipContent>{children}</TooltipContent>

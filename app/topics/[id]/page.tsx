@@ -4,11 +4,11 @@ import Link from 'next/link';
 import { topicsService } from '@/lib/services/topics';
 
 import { PostList } from '@/components/posts/post-list';
-import { SectionHeader } from '@/components/shared/section-header';
 import { Button } from '@/components/ui/button';
+import { SectionHeader } from '../_components/section-header';
 
 const TagPage = async ({ params: { id } }: { params: { id: string } }) => {
-    const query = await topicsService.findByCatId(id);
+    const query = await topicsService.findById(id);
 
     if (!query) {
         notFound();
@@ -23,7 +23,7 @@ const TagPage = async ({ params: { id } }: { params: { id: string } }) => {
                     </div>
 
                     <Button variant="link" asChild>
-                        <Link href="/topics">Back to all</Link>
+                        <Link href="/topics">Back to all topics</Link>
                     </Button>
                 </div>
             </SectionHeader>

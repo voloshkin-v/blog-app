@@ -1,12 +1,22 @@
+import { Suspense } from 'react';
 import Link from 'next/link';
 import { topicsService } from '@/lib/services/topics';
 
 import { TopicItem } from '@/components/topics/topic-item';
 import { Tooltip } from '@/components/shared/tooltip';
+import { Loader } from '@/components/shared/loader';
+import { Skeleton } from '../ui/skeleton';
 
 export const PopularTopics = async () => {
-    const popularTopics = await topicsService.findPopular(8);
+    return (
+        <Suspense fallback={<Loader>Loading popular topics</Loader>}>
+            <PopularTopicsList />
+        </Suspense>
+    );
+};
 
+export const PopularTopicsList = async () => {
+    const popularTopics = await topicsService.findPopular(8);
     if (!popularTopics.length) return false;
 
     return (

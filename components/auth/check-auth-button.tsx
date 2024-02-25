@@ -1,6 +1,6 @@
 'use client';
 
-import { useCurrentUser } from '@/lib/hooks/useCurrentUser';
+import { useCurrentUser } from '@/lib/hooks/use-current-user';
 
 import { Dialog, DialogTrigger, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Social } from '@/components/auth/social';

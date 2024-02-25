@@ -1,9 +1,9 @@
 'use client';
 
-import { BookMarked, LogOut, User } from 'lucide-react';
-import { useCurrentUser } from '@/lib/hooks/useCurrentUser';
-import { FaUser } from 'react-icons/fa';
+import { BookMarked, LogOut, User, Newspaper } from 'lucide-react';
+import { useCurrentUser } from '@/lib/hooks/use-current-user';
 import { logout } from '@/actions/auth';
+import Link from 'next/link';
 
 import {
     DropdownMenu,
@@ -13,10 +13,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import Link from 'next/link';
-import { useSession } from 'next-auth/react';
-import { AuthorImage } from '../author/author-image';
+import { AuthorImage } from '@/components/author/author-image';
 
 export const UserButton = () => {
     const user = useCurrentUser();
@@ -43,9 +40,16 @@ export const UserButton = () => {
                 </DropdownMenuItem>
 
                 <DropdownMenuItem asChild className="cursor-pointer">
-                    <Link href="/saved">
+                    <Link href="/me/saved">
                         <BookMarked className="mr-2 h-4 w-4" />
                         Saved
+                    </Link>
+                </DropdownMenuItem>
+
+                <DropdownMenuItem asChild className="cursor-pointer">
+                    <Link href="/me/stories">
+                        <Newspaper className="mr-2 h-4 w-4" />
+                        Stories
                     </Link>
                 </DropdownMenuItem>
 

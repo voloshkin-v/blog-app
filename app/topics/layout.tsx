@@ -1,5 +1,5 @@
 const TopicsLayout = ({ children }: { children: React.ReactNode }) => {
-    return <section className="py container-small">{children}</section>;
+    return <main className="container-small py">{children}</main>;
 };
 
 export default TopicsLayout;

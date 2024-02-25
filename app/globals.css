@@ -127,3 +127,14 @@ body {
         @apply -mt-8 flex-1 space-y-10 border-l p-8;
     }
 }
+
+/* Quill lib styles  */
+
+.quill .ql-container {
+    @apply text-xl;
+}
+
+.ql-editor.ql-blank::before {
+    /* @apply   text-foreground; */
+    @apply text-red-600;
+}

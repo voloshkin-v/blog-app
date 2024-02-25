@@ -1,7 +1,7 @@
 'use client';
 
 import { savePost, unsavePost } from '@/actions/post';
-import { useCurrentUser } from '@/lib/hooks/useCurrentUser';
+import { useCurrentUser } from '@/lib/hooks/use-current-user';
 import { PinOff, Pin } from 'lucide-react';
 import { SavedByUsers } from '@/components/posts/types';
 import { useToast } from '@/components/ui/use-toast';

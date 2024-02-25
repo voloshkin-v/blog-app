@@ -13,7 +13,7 @@ const PostPage = async ({ params: { id } }: { params: { id: string } }) => {
     }
 
     return (
-        <section className="py m-auto max-w-4xl">
+        <>
             <h1>{post?.title}</h1>
 
             <p className="mt-2">
@@ -27,7 +27,7 @@ const PostPage = async ({ params: { id } }: { params: { id: string } }) => {
                     <span>{post.author.name}</span>
                 </Link>
 
-                <p>Created: {post.createdAt.toDateString()}</p>
+                <p>Published {post.createdAt.toDateString()}</p>
             </div>
 
             <div className="flex flex-wrap gap-4 border-b border-t py-2">
@@ -37,8 +37,12 @@ const PostPage = async ({ params: { id } }: { params: { id: string } }) => {
                 <SavePostButton postId={post.id} savedByUser={post.savedByUser} />
             </div>
 
-            <div className="mt-8">content</div>
-        </section>
+            <div className="mt-8">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus eveniet, animi perferendis consectetur
+                aut, doloremque vitae voluptatibus ipsam ullam ad sed maxime labore esse inventore, odio nobis debitis
+                recusandae incidunt?
+            </div>
+        </>
     );
 };
 

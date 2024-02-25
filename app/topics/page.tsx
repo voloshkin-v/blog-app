@@ -1,11 +1,9 @@
 import { topicsService } from '@/lib/services/topics';
-import { Loader } from 'lucide-react';
-import { Suspense } from 'react';
 
 import { SearchTopic } from '@/app/topics/_components/search-topic';
 import { TopicList } from '@/app/topics/_components/topic-list';
-import { LoadTopicsButton } from '@/app/topics/_components/load-topics-button';
-import { SectionHeader } from '@/components/shared/section-header';
+import { SectionHeader } from './_components/section-header';
+import { LoadTopicsButton } from './_components/load-topics-button';
 
 interface TopicsPage {
     searchParams: {
@@ -28,22 +26,13 @@ const TopicsPage = async ({ searchParams }: TopicsPage) => {
                 <SearchTopic />
 
                 <div>
-                    <Suspense
-                        key={query + validatedPage}
-                        fallback={
-                            <div>
-                                <Loader className="mx-auto animate-spin" />
-                            </div>
-                        }
-                    >
-                        <TopicList query={query} page={validatedPage} />
+                    <TopicList query={query} page={validatedPage} />
 
-                        {validatedPage && totalPage > validatedPage && (
-                            <div className="mt-2 flex justify-center">
-                                <LoadTopicsButton page={validatedPage} />
-                            </div>
-                        )}
-                    </Suspense>
+                    {totalPage > validatedPage && (
+                        <div className="mt-2 flex justify-center">
+                            <LoadTopicsButton page={validatedPage} />
+                        </div>
+                    )}
                 </div>
             </div>
         </>

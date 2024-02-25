@@ -1,8 +1,6 @@
 import { prisma } from '@/lib/db';
 import { Prisma } from '@prisma/client';
 
-const wait = () => new Promise((res) => setTimeout(res, 4000));
-
 class TopicsService {
     private ITEMS_PER_PAGE = 12;
 
@@ -64,7 +62,7 @@ class TopicsService {
         }
     }
 
-    async findByCatId(id: string) {
+    async findById(id: string) {
         try {
             return await prisma.topic.findUnique({
                 where: { id },

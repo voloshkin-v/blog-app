@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 
-import { SidebarLayout } from '@/components/shared/sidebar-layout';
+import { SidebarLayout } from '@/components/sidebar-layout';
 import { AuthorCard } from '@/app/author/[id]/_components/author-card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getAuthorById } from '@/lib/services/author';

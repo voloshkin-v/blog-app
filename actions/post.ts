@@ -40,3 +40,17 @@ export const unsavePost = async (postId: string, userId: string) => {
 
     revalidatePath('/saved');
 };
+
+export const create = async () => {
+    const userId = 'clsqme2gu00004z1kb5dx0qxo';
+
+    const newPost = await prisma.post.create({
+        data: {
+            title: 'New post',
+            content: 'Content',
+            author: {
+                connect: { id: userId },
+            },
+        },
+    });
+};

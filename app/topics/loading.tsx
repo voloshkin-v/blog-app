@@ -1,9 +1,9 @@
-import { Loader } from 'lucide-react';
+import { Loader } from '@/components/shared/loader';
 
 const PostLoading = () => {
     return (
         <div className="flex justify-center">
-            <Loader className="animate-spin-slow" />
+            <Loader />
         </div>
     );
 };

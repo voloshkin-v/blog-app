@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/db';
 
+const wait = () => new Promise((res) => setTimeout(res, 5000));
 class PostsService {
     async findAll() {
         try {
