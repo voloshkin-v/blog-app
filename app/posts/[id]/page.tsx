@@ -18,7 +18,9 @@ const PostPage = async ({ params: { id } }: { params: { id: string } }) => {
         <>
             <div className="space-y-2">
                 {post.image && (
-                    <Image src={post.image} alt="post image" width={300} height={300} className="mb-2 rounded" />
+                    <div className="relative h-64 max-w-full bg-gray-100">
+                        <Image src={post.image} fill alt="post image" className="mb-2 rounded object-cover" />
+                    </div>
                 )}
 
                 <h1>{post.title}</h1>
@@ -39,11 +41,6 @@ const PostPage = async ({ params: { id } }: { params: { id: string } }) => {
             </div>
 
             <div className="mt-8" dangerouslySetInnerHTML={{ __html: getCleanHtml(post.content) }} />
-            {/* {post.content} */}
-            {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus eveniet, animi perferendis consectetur */}
-            {/* aut, doloremque vitae voluptatibus ipsam ullam ad sed maxime labore esse inventore, odio nobis debitis */}
-            {/* recusandae incidunt? */}
-            {/* </div> */}
         </>
     );
 };

@@ -111,7 +111,7 @@ export const FileUpload = ({ className, setImageUrl, setIsFileLoading, isFileLoa
 
     if (file) {
         return (
-            <div className="relative">
+            <div className="relative h-[145px] w-full">
                 {isFileLoading && (
                     <div className="absolute left-0 top-0 z-40 flex h-full w-full items-center justify-center bg-white opacity-75">
                         <Loader>Uploading</Loader>
@@ -119,8 +119,7 @@ export const FileUpload = ({ className, setImageUrl, setIsFileLoading, isFileLoa
                 )}
                 <Image
                     src={file.preview}
-                    width={463}
-                    height={145}
+                    fill
                     alt="Post image preview"
                     onLoad={() => URL.revokeObjectURL(file.preview)}
                     className="h-[145px] w-full object-cover"

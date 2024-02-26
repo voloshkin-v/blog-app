@@ -2,21 +2,23 @@ import { useState } from 'react';
 import { useAction } from 'next-safe-action/hooks';
 import { toast } from '@/components/ui/use-toast';
 import { createPost } from '@/actions/post/create-post';
+import { editPost } from '@/actions/post/edit-post';
+import { Post } from '@prisma/client';
 
 import { Button } from '@/components/ui/button';
-import { FileUpload } from '../new-story/_components/file-upload';
-import { Loader } from '@/components/shared/loader';
+import { FileUpload } from './file-upload';
 
 interface Props {
     title: string;
     content: string;
     onChangeTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    story?: Post;
 }
 
-export const Preview = ({ content, title, onChangeTitle }: Props) => {
-    const [imageUrl, setImageUrl] = useState('');
+export const Preview = ({ content, title, onChangeTitle, story }: Props) => {
+    const [imageUrl, setImageUrl] = useState(story?.image || '');
     const [isFileLoading, setIsFileLoading] = useState(false);
-    const [preview, setPreview] = useState('');
+    const [preview, setPreview] = useState(story?.preview || '');
 
     const isDisable = isFileLoading || !preview || !title || !content;
 
@@ -33,13 +35,36 @@ export const Preview = ({ content, title, onChangeTitle }: Props) => {
         },
     });
 
+    const { execute: editExecute, status: editStatus } = useAction(editPost, {
+        onError: (error) => {
+            toast({
+                title: 'Something went wrong!',
+                description: 'Post could not be added',
+                variant: 'destructive',
+            });
+        },
+        onSuccess: (data) => {
+            console.log(data);
+        },
+    });
+
     const addPost = () => {
-        execute({
-            title,
-            content,
-            preview,
-            image: imageUrl,
-        });
+        if (story?.id) {
+            editExecute({
+                title,
+                content,
+                preview,
+                image: imageUrl,
+                id: story.id,
+            });
+        } else {
+            execute({
+                title,
+                content,
+                preview,
+                image: imageUrl,
+            });
+        }
     };
 
     return (
@@ -78,7 +103,7 @@ export const Preview = ({ content, title, onChangeTitle }: Props) => {
 
             <div>
                 <Button onClick={addPost} disabled={status === 'executing' || isDisable}>
-                    Publish
+                    {story?.id ? 'Edit' : 'Publish'}
                 </Button>
             </div>
         </div>

@@ -60,7 +60,7 @@ export const CreateEditForm = ({ story }: Props) => {
                 </DialogTrigger>
 
                 <DialogContent className="h-full max-w-full rounded-none p-24">
-                    <Preview title={title} onChangeTitle={handleTitleChange} content={content} />
+                    <Preview title={title} onChangeTitle={handleTitleChange} content={content} story={story} />
                 </DialogContent>
             </Dialog>
         </div>

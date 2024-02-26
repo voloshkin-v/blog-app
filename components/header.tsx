@@ -1,6 +1,5 @@
 import { currentUser } from '@/lib/session';
 import { SquarePen } from 'lucide-react';
-import { Shield } from 'lucide-react';
 
 import { Logo } from '@/components/shared/logo';
 import { UserButton } from '@/components/auth/user-button';

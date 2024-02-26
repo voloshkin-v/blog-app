@@ -32,13 +32,14 @@ export const PostItemRow = async ({ post }: Props) => {
 
                 <Link href={`/posts/${post.id}`} className="inline-block w-fit overflow-hidden rounded md:m-auto">
                     {post.image && (
-                        <Image
-                            className="transition-transform hover:scale-105"
-                            src={post.image}
-                            alt="Post image"
-                            width={200}
-                            height={200}
-                        />
+                        <div className="relative h-40 w-40 max-w-40">
+                            <Image
+                                className="object-cover transition-transform hover:scale-105"
+                                src={post.image}
+                                alt="Post image"
+                                fill
+                            />
+                        </div>
                     )}
                 </Link>
             </div>
