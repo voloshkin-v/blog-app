@@ -27,8 +27,7 @@ export const CreateEditForm = ({ story }: Props) => {
     const [title, setTitle] = useState(story?.title || '');
     const [content, setContent] = useState(story?.content || '');
 
-    // Check if title and content are empty
-    const isDisable = !title || content.replace(/<(.|\n)*?>/g, '').trim().length === 0;
+    const isDisable = !title || content.replace(/<(.|\n)*?>/g, '').trim().length === 0; // Check if title and content are empty
 
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value);
