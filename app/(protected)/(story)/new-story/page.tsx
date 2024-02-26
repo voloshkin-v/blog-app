@@ -1,5 +1,3 @@
-// 'use client';
-
 import { CreateEditForm } from '../_components/create-edit-form';
 
 const NewStoryPage = () => {

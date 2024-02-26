@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import { AuthorImage } from '@/components/author/author-image';
 import { SavePostButton } from '@/components/posts/save-post-button';
 import { getCleanHtml } from '@/lib/utils';
-import Image from 'next/image';
+import { PostImage } from '@/components/posts/post-image';
 
 const PostPage = async ({ params: { id } }: { params: { id: string } }) => {
     const post = await postsService.findOne(id);
@@ -17,11 +17,7 @@ const PostPage = async ({ params: { id } }: { params: { id: string } }) => {
     return (
         <>
             <div className="space-y-2">
-                {post.image && (
-                    <div className="relative h-64 max-w-full bg-gray-100">
-                        <Image src={post.image} fill alt="post image" className="mb-2 rounded object-cover" />
-                    </div>
-                )}
+                <PostImage src={post.image} className="h-auto w-full max-w-full bg-gray-100 pb-[45%]" />
 
                 <h1>{post.title}</h1>
                 <p>{post.preview}</p>

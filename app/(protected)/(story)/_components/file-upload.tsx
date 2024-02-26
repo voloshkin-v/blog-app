@@ -61,13 +61,13 @@ export const FileUpload = ({ className, setImageUrl, setIsFileLoading, isFileLoa
                 // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                 setIsFileLoading(true);
-                console.log('Upload is ' + progress + '% done');
+                // console.log('Upload is ' + progress + '% done');
                 switch (snapshot.state) {
                     case 'paused':
-                        console.log('Upload is paused');
+                        // console.log('Upload is paused');
                         break;
                     case 'running':
-                        console.log('Upload is running');
+                        // console.log('Upload is running');
                         break;
                 }
             },
@@ -98,7 +98,6 @@ export const FileUpload = ({ className, setImageUrl, setIsFileLoading, isFileLoa
 
                     setIsFileLoading(false);
                     setImageUrl(downloadURL);
-                    console.log('File available at', downloadURL);
                 });
             },
         );
@@ -111,7 +110,7 @@ export const FileUpload = ({ className, setImageUrl, setIsFileLoading, isFileLoa
 
     if (file) {
         return (
-            <div className="relative h-[145px] w-full">
+            <div className="relative min-h-[145px] w-full">
                 {isFileLoading && (
                     <div className="absolute left-0 top-0 z-40 flex h-full w-full items-center justify-center bg-white opacity-75">
                         <Loader>Uploading</Loader>
@@ -122,7 +121,7 @@ export const FileUpload = ({ className, setImageUrl, setIsFileLoading, isFileLoa
                     fill
                     alt="Post image preview"
                     onLoad={() => URL.revokeObjectURL(file.preview)}
-                    className="h-[145px] w-full object-cover"
+                    className="h-[145px] w-full rounded object-cover"
                 />
 
                 <Button variant="secondary" size="icon" className="absolute right-2 top-2" onClick={onDelete}>

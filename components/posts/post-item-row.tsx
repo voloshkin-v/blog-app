@@ -5,6 +5,7 @@ import { Post } from '@/components/posts/types';
 import { AuthorImage } from '@/components/author/author-image';
 import { TopicItem } from '@/components/topics/topic-item';
 import { SavePostButton } from '@/components/posts/save-post-button';
+import { PostImage } from './post-image';
 
 interface Props {
     post: Post;
@@ -31,16 +32,7 @@ export const PostItemRow = async ({ post }: Props) => {
                 </Link>
 
                 <Link href={`/posts/${post.id}`} className="inline-block w-fit overflow-hidden rounded md:m-auto">
-                    {post.image && (
-                        <div className="relative h-40 w-40 max-w-40">
-                            <Image
-                                className="object-cover transition-transform hover:scale-105"
-                                src={post.image}
-                                alt="Post image"
-                                fill
-                            />
-                        </div>
-                    )}
+                    <PostImage src={post.image} imageClassName="transition-transform hover:scale-105" />
                 </Link>
             </div>
 

@@ -12,6 +12,9 @@ const findPublishedPosts = async (authorId: string) => {
             title: true,
             createdAt: true,
         },
+        orderBy: {
+            createdAt: 'desc',
+        },
     });
 };
 

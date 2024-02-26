@@ -1,5 +1,5 @@
-import { prisma } from '@/lib/db';
 import { notFound } from 'next/navigation';
+import { authorService } from '@/lib/services/author';
 
 import { SidebarLayout } from '@/components/sidebar-layout';
 import { AuthorCard } from '@/app/author/[id]/_components/author-card';
@@ -10,16 +10,7 @@ interface Props {
 }
 
 const AuthorLayout = async ({ children, params: { id } }: Props) => {
-    const author = await prisma.user.findUnique({
-        where: { id },
-        select: {
-            id: true,
-            image: true,
-            name: true,
-            email: true,
-            description: true,
-        },
-    });
+    const author = await authorService.findOne(id);
 
     if (!author) {
         notFound();

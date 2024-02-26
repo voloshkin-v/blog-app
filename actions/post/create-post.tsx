@@ -11,6 +11,7 @@ const createPostSchema = z.object({
     content: z.string().min(1),
     preview: z.string().min(1),
     image: z.string().optional(),
+    topicsList: z.string().array().optional(),
 });
 
 export const createPost = action(createPostSchema, async (data) => {
@@ -20,7 +21,7 @@ export const createPost = action(createPostSchema, async (data) => {
         throw new Error('Session not found!');
     }
 
-    const { content, title, preview, image } = data;
+    const { content, title, preview, image, topicsList } = data;
 
     const newPost = await prisma.post.create({
         data: {
@@ -29,6 +30,16 @@ export const createPost = action(createPostSchema, async (data) => {
             preview,
             authorId: user.id,
             image,
+            topics: {
+                connectOrCreate: topicsList?.map((topic) => ({
+                    where: {
+                        name: topic,
+                    },
+                    create: {
+                        name: topic,
+                    },
+                })),
+            },
         },
     });
 

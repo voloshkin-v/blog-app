@@ -10,6 +10,7 @@ class AuthorService {
                     image: true,
                     name: true,
                     email: true,
+                    description: true,
                 },
             });
         } catch (err) {

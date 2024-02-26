@@ -1,6 +1,5 @@
 'use client';
 
-import { Post } from '@prisma/client';
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 
@@ -18,6 +17,7 @@ import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Preview } from './preview';
 import { Loader } from '@/components/shared/loader';
+import { Post } from '@/components/posts/types';
 
 interface Props {
     story?: Post;
@@ -27,7 +27,8 @@ export const CreateEditForm = ({ story }: Props) => {
     const [title, setTitle] = useState(story?.title || '');
     const [content, setContent] = useState(story?.content || '');
 
-    const isDisable = !title || content.replace(/<(.|\n)*?>/g, '').trim().length === 0; // Check if title and content are empty
+    // Check if title and content are empty
+    const isDisable = !title || content.replace(/<(.|\n)*?>/g, '').trim().length === 0;
 
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value);
@@ -58,7 +59,7 @@ export const CreateEditForm = ({ story }: Props) => {
                     <Button disabled={isDisable}>{story ? 'Edit' : 'Publish'}</Button>
                 </DialogTrigger>
 
-                <DialogContent className="h-full max-w-full rounded-none p-24">
+                <DialogContent className="h-full max-w-full rounded-none py-10 md:p-24">
                     <Preview title={title} onChangeTitle={handleTitleChange} content={content} story={story} />
                 </DialogContent>
             </Dialog>
