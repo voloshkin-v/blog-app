@@ -17,11 +17,11 @@ export const Header = async () => {
                 <Logo />
 
                 <div className="ml-auto flex items-center gap-2 sm:gap-4">
+                    <Link href="/topics">Topics</Link>
+                    <Link href="/posts">Posts</Link>
+
                     {user ? (
                         <>
-                            <Link href="/topics">Topics</Link>
-                            <Link href="/posts">Posts</Link>
-
                             <Link href="/new-story">
                                 Write <SquarePen className="w-4" />
                             </Link>

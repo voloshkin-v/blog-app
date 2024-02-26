@@ -27,20 +27,19 @@ export const PostItemRow = async ({ post }: Props) => {
             <div className="flex flex-col justify-between gap-2 md:flex-row">
                 <Link href={`/posts/${post.id}`} className="block flex-1 space-y-1">
                     <h3 className="text-xl font-medium">{post.title}</h3>
-                    <p>
-                        {post.content.slice(0, 300)}
-                        {post.content.length > 300 && '...'}
-                    </p>
+                    <p>{post.preview}</p>
                 </Link>
 
                 <Link href={`/posts/${post.id}`} className="inline-block w-fit overflow-hidden rounded md:m-auto">
-                    <Image
-                        className="transition-transform hover:scale-105"
-                        src="https://miro.medium.com/v2/resize:fill:224:224/1*kkyb7iTBX2LqaHTgoB3wdA.png"
-                        alt=""
-                        width={112}
-                        height={112}
-                    />
+                    {post.image && (
+                        <Image
+                            className="transition-transform hover:scale-105"
+                            src={post.image}
+                            alt="Post image"
+                            width={200}
+                            height={200}
+                        />
+                    )}
                 </Link>
             </div>
 

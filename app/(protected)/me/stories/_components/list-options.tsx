@@ -63,7 +63,7 @@ export const ListOptions = ({ story }: Props) => {
 
                 <DropdownMenuContent align="start">
                     <DropdownMenuItem asChild>
-                        <Link href={`/posts/${story.id}`} className="cursor-pointer">
+                        <Link href={`/edit-story/${story.id}`} className="cursor-pointer">
                             Edit
                         </Link>
                     </DropdownMenuItem>

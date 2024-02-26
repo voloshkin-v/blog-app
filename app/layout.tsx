@@ -6,7 +6,7 @@ import '@/app/globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { Header } from '@/components/header';
 
-const fredoka = Fredoka({ subsets: ['latin'] });
+export const fredoka = Fredoka({ subsets: ['latin'], variable: '--font-fredoka' });
 
 export const metadata: Metadata = {
     title: 'Blog app',
@@ -26,7 +26,7 @@ export default async function RootLayout({
                 <SessionProvider session={session}>
                     <Header />
 
-                    <div className="min-h-full pt-16">{children}</div>
+                    <div className="flex min-h-full flex-col pt-16">{children}</div>
                     <Toaster />
                 </SessionProvider>
             </body>

@@ -55,6 +55,8 @@ export const SavePostButton = ({ postId, savedByUser }: Props) => {
     });
 
     const handleSave = () => {
+        if (!user?.id) return;
+
         if (isSaved) {
             setSaved(false);
             unsave(postId);

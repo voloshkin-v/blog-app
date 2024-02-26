@@ -17,12 +17,6 @@ export default async function Home() {
                     </div>
                 </div>
             </section>
-
-            <section className="py container">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto adipisci sapiente fugit provident
-                cupiditate corporis architecto impedit! Doloremque molestiae dolores ipsam, mollitia quidem sint autem
-                ad fuga. Cupiditate, similique omnis!
-            </section>
         </main>
     );
 }

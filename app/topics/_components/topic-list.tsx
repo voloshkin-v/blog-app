@@ -10,7 +10,7 @@ interface Props {
 export const TopicList = async ({ query, page }: Props) => {
     const { topics } = await topicsService.findAll(query, page);
 
-    if (!topics.length) {
+    if (!topics.length && query) {
         return (
             <div>
                 <p>Make sure all words are spelled correctly.</p>
@@ -18,6 +18,10 @@ export const TopicList = async ({ query, page }: Props) => {
                 <p>Try more general keywords.</p>
             </div>
         );
+    }
+
+    if (!topics.length) {
+        return <p>No topics found</p>;
     }
 
     return (

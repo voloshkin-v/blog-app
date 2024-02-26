@@ -1,11 +1,11 @@
 import { Loader } from '@/components/shared/loader';
 
-const MeLoading = () => {
+const EditStoryLoading = () => {
     return (
-        <div className="flex justify-center">
+        <div className="py container">
             <Loader />
         </div>
     );
 };
 
-export default MeLoading;
+export default EditStoryLoading;

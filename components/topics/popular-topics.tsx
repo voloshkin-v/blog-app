@@ -31,7 +31,6 @@ export const PopularTopics = async () => {
 
 export const PopularTopicsList = async () => {
     const popularTopics = await topicsService.findPopular(8);
-    if (!popularTopics.length) return false;
 
     return (
         <div className="space-y-4">
@@ -40,11 +39,15 @@ export const PopularTopicsList = async () => {
                 <Tooltip>These topics have the largest number of posts</Tooltip>
             </h2>
 
-            <div className="flex flex-wrap gap-4">
-                {popularTopics.map((topic) => (
-                    <TopicItem key={topic.id} topic={topic} />
-                ))}
-            </div>
+            {popularTopics.length > 0 ? (
+                <div className="flex flex-wrap gap-4">
+                    {popularTopics.map((topic) => (
+                        <TopicItem key={topic.id} topic={topic} />
+                    ))}
+                </div>
+            ) : (
+                <p>No topics found</p>
+            )}
 
             <Link href="/topics" className="link-underline inline-block">
                 Explore all

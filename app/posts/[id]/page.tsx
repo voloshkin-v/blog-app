@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation';
 
 import { AuthorImage } from '@/components/author/author-image';
 import { SavePostButton } from '@/components/posts/save-post-button';
+import { getCleanHtml } from '@/lib/utils';
+import Image from 'next/image';
 
 const PostPage = async ({ params: { id } }: { params: { id: string } }) => {
     const post = await postsService.findOne(id);
@@ -14,12 +16,14 @@ const PostPage = async ({ params: { id } }: { params: { id: string } }) => {
 
     return (
         <>
-            <h1>{post?.title}</h1>
+            <div className="space-y-2">
+                {post.image && (
+                    <Image src={post.image} alt="post image" width={300} height={300} className="mb-2 rounded" />
+                )}
 
-            <p className="mt-2">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eum ipsum aut quos dolore ad rerum blanditiis
-                accusamus ducimus! Fugit placeat tempora similique sapiente laudantium, optio totam nam ex dolorum quos!
-            </p>
+                <h1>{post.title}</h1>
+                <p>{post.preview}</p>
+            </div>
 
             <div className="my-4 space-y-2">
                 <Link href={`/author/${post.authorId}`} className="row hover:underline">
@@ -31,17 +35,15 @@ const PostPage = async ({ params: { id } }: { params: { id: string } }) => {
             </div>
 
             <div className="flex flex-wrap gap-4 border-b border-t py-2">
-                <span>clap</span>
-                <span>comment</span>
-
                 <SavePostButton postId={post.id} savedByUser={post.savedByUser} />
             </div>
 
-            <div className="mt-8">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus eveniet, animi perferendis consectetur
-                aut, doloremque vitae voluptatibus ipsam ullam ad sed maxime labore esse inventore, odio nobis debitis
-                recusandae incidunt?
-            </div>
+            <div className="mt-8" dangerouslySetInnerHTML={{ __html: getCleanHtml(post.content) }} />
+            {/* {post.content} */}
+            {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus eveniet, animi perferendis consectetur */}
+            {/* aut, doloremque vitae voluptatibus ipsam ullam ad sed maxime labore esse inventore, odio nobis debitis */}
+            {/* recusandae incidunt? */}
+            {/* </div> */}
         </>
     );
 };

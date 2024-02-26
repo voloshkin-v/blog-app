@@ -1,10 +1,37 @@
 import { prisma } from '@/lib/db';
 
-const wait = () => new Promise((res) => setTimeout(res, 5000));
 class PostsService {
-    async findAll() {
+    async findAll(authorId?: string) {
         try {
             return await prisma.post.findMany({
+                where: {
+                    authorId,
+                },
+                include: {
+                    author: {
+                        select: {
+                            name: true,
+                            image: true,
+                        },
+                    },
+                    savedByUser: {
+                        select: { id: true },
+                    },
+                    topics: true,
+                },
+                orderBy: {
+                    createdAt: 'desc',
+                },
+            });
+        } catch (err) {
+            throw new Error('Failed to fetch posts');
+        }
+    }
+
+    async findOne(id: string) {
+        try {
+            return await prisma.post.findUnique({
+                where: { id },
                 include: {
                     author: {
                         select: {
@@ -19,26 +46,8 @@ class PostsService {
                 },
             });
         } catch (err) {
-            throw new Error('Failed to fetch posts');
+            throw new Error('Failed to fetch post');
         }
-    }
-
-    async findOne(id: string) {
-        return await prisma.post.findUnique({
-            where: { id },
-            include: {
-                author: {
-                    select: {
-                        name: true,
-                        image: true,
-                    },
-                },
-                savedByUser: {
-                    select: { id: true },
-                },
-                topics: true,
-            },
-        });
     }
 
     async findSaved(userId: string) {

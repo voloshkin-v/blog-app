@@ -1,12 +1,15 @@
 import { notFound } from 'next/navigation';
-
-import { SidebarLayout } from '@/components/sidebar-layout';
-import { AuthorCard } from '@/app/author/[id]/_components/author-card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { getAuthorById } from '@/lib/services/author';
+import { authorService } from '@/lib/services/author';
+import Link from 'next/link';
+import { currentUser } from '@/lib/session';
+import { Button } from '@/components/ui/button';
+import { AuthorPosts } from './_components/author-posts';
+import { Suspense } from 'react';
+import { Loader } from '@/components/shared/loader';
 
 const AuthorPage = async ({ params: { id } }: { params: { id: string } }) => {
-    const author = await getAuthorById(id);
+    const author = await authorService.findOne(id);
+    const user = await currentUser();
 
     if (!author) {
         notFound();
@@ -16,20 +19,15 @@ const AuthorPage = async ({ params: { id } }: { params: { id: string } }) => {
         <>
             <h1 className="mb-10">{author.name}</h1>
 
-            <Tabs defaultValue="home">
-                <TabsList className="">
-                    <TabsTrigger value="home">Home</TabsTrigger>
-                    <TabsTrigger value="about">About</TabsTrigger>
-                </TabsList>
-
-                <TabsContent value="home">
-                    <p>Home</p>
-                </TabsContent>
-
-                <TabsContent value="about">
-                    <p>About</p>
-                </TabsContent>
-            </Tabs>
+            {user?.id === author.id ? (
+                <Button asChild>
+                    <Link href="/posts">Explore all posts</Link>
+                </Button>
+            ) : (
+                <Suspense fallback={<Loader />}>
+                    <AuthorPosts id={author.id} />
+                </Suspense>
+            )}
         </>
     );
 };

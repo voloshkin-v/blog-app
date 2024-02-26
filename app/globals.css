@@ -94,6 +94,10 @@ body {
     p {
         @apply text-muted-foreground;
     }
+
+    strong {
+        @apply font-semibold;
+    }
 }
 
 @layer utilities {
@@ -118,7 +122,7 @@ body {
     }
 
     .container-small {
-        @apply mx-auto max-w-3xl px-5;
+        @apply mx-auto w-full max-w-3xl px-5;
     }
 }
 
@@ -130,11 +134,17 @@ body {
 
 /* Quill lib styles  */
 
+.ql-container {
+    @apply !font-fredoka;
+}
 .quill .ql-container {
     @apply text-xl;
 }
 
+.ql-editor > * {
+    @apply text-foreground;
+}
+
 .ql-editor.ql-blank::before {
-    /* @apply   text-foreground; */
-    @apply text-red-600;
+    @apply !not-italic !text-muted-foreground;
 }

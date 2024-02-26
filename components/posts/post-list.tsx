@@ -6,6 +6,10 @@ interface Props {
 }
 
 export const PostList = async ({ posts }: Props) => {
+    if (!posts.length) {
+        return <p>No posts found</p>;
+    }
+
     return (
         <div className="space-y-12">
             {posts.map((post) => (

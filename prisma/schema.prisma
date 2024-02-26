@@ -31,26 +31,30 @@ model Account {
 }
 
 model User {
-  id          String    @id @default(cuid())
-  name        String?
-  email       String    @unique
-  image       String?
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  image         String?
+  emailVerified DateTime?
+
   description String?
   posts       Post[]    @relation("WrittenPosts")
-  savedPosts  Post[]    
-  accounts    Account[] 
+  savedPosts  Post[]
+  accounts    Account[]
 }
 
 model Post {
   id          String   @id @default(cuid())
   title       String
   content     String
+  preview     String
+  image       String?
   author      User     @relation("WrittenPosts", fields: [authorId], references: [id])
   authorId    String
   savedByUser User[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  topics      Topic[] 
+  topics      Topic[]
 }
 
 model Topic {

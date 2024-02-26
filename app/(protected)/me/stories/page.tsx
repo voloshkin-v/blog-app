@@ -2,8 +2,6 @@ import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 import { StoriesList } from './_components/stories-list';
-import { Suspense } from 'react';
-import { Loader } from '@/components/shared/loader';
 
 const StoriesPage = () => {
     return (
