@@ -10,7 +10,7 @@ interface Props {
 
 export const Story = ({ story }: Props) => {
     return (
-        <div key={story.id} className="py-4 first:pt-0">
+        <div key={story.id} className="py-4 first:pt-0 last:pb-0">
             <h3>
                 <Link href={`/posts/${story.id}`} className="link">
                     {story.title}

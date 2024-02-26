@@ -9,7 +9,9 @@ const SavedPage = async () => {
 
     return (
         <>
-            <h1 className="mb-10 border-b pb-10">Saved posts</h1>
+            <div className="mb-8 flex flex-wrap justify-between gap-4 border-b pb-8">
+                <h1>Saved posts</h1>
+            </div>
 
             <div>{savedPosts.length ? <PostList posts={savedPosts} /> : <p>You have not saved posts yet.</p>}</div>
         </>

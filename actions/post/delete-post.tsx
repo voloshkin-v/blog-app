@@ -8,11 +8,8 @@ import { revalidatePath } from 'next/cache';
 
 const id = z.string();
 
-const wait = () => new Promise((res) => setTimeout(res, 2000));
-
 export const deletePost = action(id, async (id) => {
     const user = await currentUser();
-    await wait();
 
     if (!user?.id) {
         throw new Error('Session not found!');

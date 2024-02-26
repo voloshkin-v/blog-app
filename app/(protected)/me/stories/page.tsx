@@ -8,7 +8,7 @@ import { Loader } from '@/components/shared/loader';
 const StoriesPage = () => {
     return (
         <>
-            <div className="mb-10 flex flex-wrap justify-between gap-4 border-b pb-10">
+            <div className="mb-8 flex flex-wrap justify-between gap-4 border-b pb-8">
                 <h1>Your stories</h1>
 
                 <Button asChild>
