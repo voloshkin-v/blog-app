@@ -23,7 +23,7 @@ export const Preview = ({ content, title, onChangeTitle, story }: Props) => {
 
     const isDisable = isFileLoading || !preview || !title || !content;
 
-    const { execute, status } = useAction(createPost, {
+    const { execute: createExecute, status: createStatus } = useAction(createPost, {
         onError: (error) => {
             toast({
                 title: 'Something went wrong!',
@@ -69,7 +69,7 @@ export const Preview = ({ content, title, onChangeTitle, story }: Props) => {
                 topicsList,
             });
         } else {
-            execute({
+            createExecute({
                 title,
                 content,
                 preview,
@@ -130,7 +130,10 @@ export const Preview = ({ content, title, onChangeTitle, story }: Props) => {
                     placeholder="Topics"
                 />
 
-                <Button onClick={addPost} disabled={status === 'executing' || isDisable}>
+                <Button
+                    onClick={addPost}
+                    disabled={createStatus === 'executing' || editStatus === 'executing' || isDisable}
+                >
                     {story?.id ? 'Edit' : 'Publish'}
                 </Button>
             </div>
