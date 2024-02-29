@@ -1,7 +1,6 @@
 'use client';
 
 import { useCurrentUser } from '@/lib/auth/use-current-user';
-import { Children, cloneElement, isValidElement } from 'react';
 
 import { Dialog, DialogTrigger, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button, ButtonProps } from '@/components/ui/button';
@@ -23,9 +22,7 @@ export const CheckAuthButton = ({ children, ...props }: Props) => {
                     </Button>
                 </DialogTrigger>
                 <DialogContent>
-                    <DialogTitle>
-                        <h2>Sign up with</h2>
-                    </DialogTitle>
+                    <DialogTitle>Sign up with</DialogTitle>
 
                     <Social />
                 </DialogContent>

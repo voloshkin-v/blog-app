@@ -17,15 +17,35 @@ export const deletePost = action(id, async (id) => {
 
     const post = await prisma.post.findUnique({
         where: { id },
+        include: {
+            topics: true,
+        },
     });
 
     if (!post) {
         throw new Error('Post does not exist!');
     }
 
-    const deletedPost = await prisma.post.delete({
+    await prisma.post.delete({
         where: { id },
     });
+
+    const topics = await prisma.topic.findMany({
+        where: {
+            id: { in: post.topics.map((topic) => topic.id) },
+        },
+        include: { _count: { select: { posts: true } } },
+    });
+
+    for (const topic of topics) {
+        if (!topic._count.posts) {
+            await prisma.topic.delete({
+                where: {
+                    id: topic.id,
+                },
+            });
+        }
+    }
 
     revalidatePath('/me/stories');
 });

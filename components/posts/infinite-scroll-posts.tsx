@@ -3,7 +3,7 @@
 import { useInView } from 'react-intersection-observer';
 
 import { Loader } from '@/components/shared/loader';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Post } from '@/lib/db/types';
 import { fetchPosts } from '@/actions/post/get-posts';
 import { PostItemRow } from './post-item-row';
