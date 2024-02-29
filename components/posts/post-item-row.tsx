@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import Image from 'next/image';
-import { Post } from '@/components/posts/types';
+import type { Post } from '@/lib/db/types';
 
 import { AuthorImage } from '@/components/author/author-image';
 import { TopicItem } from '@/components/topics/topic-item';
@@ -11,7 +10,7 @@ interface Props {
     post: Post;
 }
 
-export const PostItemRow = async ({ post }: Props) => {
+export const PostItemRow = ({ post }: Props) => {
     return (
         <article className="space-y-2">
             <div className="row">
@@ -25,15 +24,17 @@ export const PostItemRow = async ({ post }: Props) => {
                 <span className="text-xs text-muted-foreground">{post.createdAt.toDateString()}</span>
             </div>
 
-            <div className="flex flex-col justify-between gap-2 md:flex-row">
+            <div className="flex flex-col justify-between gap-6 md:flex-row md:gap-8">
                 <Link href={`/posts/${post.id}`} className="block flex-1 space-y-1">
                     <h3 className="text-xl font-medium">{post.title}</h3>
                     <p>{post.preview}</p>
                 </Link>
 
-                <Link href={`/posts/${post.id}`} className="inline-block w-fit overflow-hidden rounded md:m-auto">
-                    <PostImage src={post.image} imageClassName="transition-transform hover:scale-105" />
-                </Link>
+                {post.image && (
+                    <Link href={`/posts/${post.id}`} className="inline-block w-fit overflow-hidden rounded">
+                        <PostImage src={post.image} className="transition-transform hover:scale-105" />
+                    </Link>
+                )}
             </div>
 
             <div className="flex flex-wrap items-center gap-4 pt-4">
@@ -46,8 +47,7 @@ export const PostItemRow = async ({ post }: Props) => {
                 )}
 
                 <span className="text-xs text-muted-foreground">5 mins read</span>
-
-                <SavePostButton postId={post.id} savedByUser={post.savedByUser} />
+                <SavePostButton postId={post.id} savedByUser={post.savedByUser} key={post.id} />
             </div>
         </article>
     );

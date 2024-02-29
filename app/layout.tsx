@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import { Fredoka } from 'next/font/google';
-import { SessionProvider } from 'next-auth/react';
-import { auth } from '@/auth';
 import '@/app/globals.css';
+
+import { AuthSession } from '@/lib/auth/auth-session';
 import { Toaster } from '@/components/ui/toaster';
-import { Header } from '@/components/header';
+import { Header } from '@/components/header/header';
 
 export const fredoka = Fredoka({ subsets: ['latin'], variable: '--font-fredoka' });
 
@@ -18,17 +18,15 @@ export default async function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const session = await auth();
-
     return (
         <html lang="en">
             <body className={fredoka.className}>
-                <SessionProvider session={session}>
+                <AuthSession>
                     <Header />
 
-                    <div className="flex min-h-full flex-col pt-16">{children}</div>
+                    <div className="h-full pt-16">{children}</div>
                     <Toaster />
-                </SessionProvider>
+                </AuthSession>
             </body>
         </html>
     );

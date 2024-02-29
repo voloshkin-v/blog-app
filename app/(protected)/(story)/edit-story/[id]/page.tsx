@@ -1,12 +1,11 @@
-import { prisma } from '@/lib/db';
 import { notFound, redirect } from 'next/navigation';
 import { CreateEditForm } from '../../_components/create-edit-form';
-import { postsService } from '@/lib/services/posts';
-import { currentUser } from '@/lib/session';
+import { currentUser } from '@/lib/auth/current-user';
 import { HOME_PAGE } from '@/lib/constants/route';
+import { getPostById } from '@/lib/db/queries/posts';
 
 const EditStoryPage = async ({ params: { id } }: { params: { id: string } }) => {
-    const story = await postsService.findOne(id);
+    const story = await getPostById(id);
     const user = await currentUser();
 
     if (!user) {

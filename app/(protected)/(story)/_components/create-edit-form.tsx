@@ -1,8 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { createPost } from '@/actions/post/create-post';
+import { editPost } from '@/actions/post/edit-post';
+import { z } from 'zod';
+import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import type { Post } from '@/lib/db/types';
 import dynamic from 'next/dynamic';
-
+import { forwardRef, useState } from 'react';
+import { useAction } from 'next-safe-action/hooks';
+import 'react-quill/dist/quill.bubble.css';
 const ReactQuill = dynamic(() => import('react-quill'), {
     ssr: false,
     loading: () => (
@@ -11,58 +18,140 @@ const ReactQuill = dynamic(() => import('react-quill'), {
         </div>
     ),
 });
-import 'react-quill/dist/quill.bubble.css';
 
 import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Preview } from './preview';
 import { Loader } from '@/components/shared/loader';
-import { Post } from '@/components/posts/types';
+import { useToast } from '@/components/ui/use-toast';
+import { createPostSchema, editPostSchema } from '@/lib/schemas';
 
-interface Props {
-    story?: Post;
-}
+type CreateValues = z.infer<typeof createPostSchema>;
+type EditValues = z.infer<typeof editPostSchema>;
+export type Values = CreateValues | EditValues;
 
-export const CreateEditForm = ({ story }: Props) => {
-    const [title, setTitle] = useState(story?.title || '');
-    const [content, setContent] = useState(story?.content || '');
+export const CreateEditForm = ({ story }: { story?: Post }) => {
+    const { toast } = useToast();
+    const isEdit = !!story?.id;
 
-    // Check if title and content are empty
-    const isDisable = !title || content.replace(/<(.|\n)*?>/g, '').trim().length === 0;
+    const [imageUrl, setImageUrl] = useState(story?.image || '');
+    const [isFileLoading, setIsFileLoading] = useState(false);
 
-    const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.target.value);
+    const { register, control, handleSubmit, formState } = useForm<Values>({
+        mode: 'onChange',
+        resolver: zodResolver(createPostSchema),
+        defaultValues: {
+            title: story?.title || '',
+            content: story?.content || '',
+            preview: story?.preview || '',
+            topics: story?.topics.map((topic) => topic.name) || [],
+        },
+    });
+
+    const { execute: createExecute, status: createStatus } = useAction(createPost, {
+        onError: (error) => {
+            toast({
+                title: 'Something went wrong!',
+                description: 'Post could not be added',
+                variant: 'destructive',
+            });
+        },
+        onSuccess: (data) => {
+            toast({
+                title: 'Post created!',
+            });
+        },
+    });
+
+    const { execute: editExecute, status: editStatus } = useAction(editPost, {
+        onError: (error) => {
+            toast({
+                title: 'Something went wrong!',
+                description: 'Post could not be added',
+                variant: 'destructive',
+            });
+        },
+        onSuccess: (data) => {
+            toast({
+                title: 'Post successfully edited!',
+            });
+        },
+    });
+
+    const {
+        dirtyFields,
+        errors: { title, content },
+    } = formState;
+
+    const validTitle = isEdit ? !title?.message : dirtyFields['title'] && !title?.message;
+    const validContent = isEdit ? !content?.message : dirtyFields['content'] && !content?.message;
+    const disable = !validTitle || !validContent;
+
+    const onSubmit: SubmitHandler<Values> = (data) => {
+        if (isEdit) {
+            editExecute({
+                content: data.content,
+                preview: data.preview,
+                title: data.title,
+                image: imageUrl,
+                topics: data.topics,
+                id: story.id,
+            } as EditValues);
+        } else {
+            createExecute({
+                content: data.content,
+                preview: data.preview,
+                title: data.title,
+                image: imageUrl,
+                topics: data.topics,
+            } as CreateValues);
+        }
     };
 
     return (
-        <div className="py container space-y-6">
-            <input
-                type="text"
-                value={title}
-                onChange={handleTitleChange}
-                placeholder="Title"
-                className="w-full text-4xl outline-none"
-            />
-
-            <div className="min-h-[52px]">
-                <ReactQuill
-                    theme="bubble"
-                    value={content}
-                    onChange={setContent}
-                    placeholder="Tell your story..."
-                    className="quill"
+        <div className="py container">
+            <form className="space-y-6">
+                <input
+                    type="text"
+                    className="w-full text-4xl outline-none"
+                    placeholder="Title"
+                    {...register('title')}
                 />
-            </div>
 
-            <Dialog>
-                <DialogTrigger asChild>
-                    <Button disabled={isDisable}>{story ? 'Edit' : 'Publish'}</Button>
-                </DialogTrigger>
+                <Controller
+                    name="content"
+                    control={control}
+                    render={({ field }) => <div className="min-h-[52.5px]">{<ReactQuillWithRef {...field} />}</div>}
+                />
 
-                <DialogContent className="h-full max-w-full rounded-none py-10 md:p-24">
-                    <Preview title={title} onChangeTitle={handleTitleChange} content={content} story={story} />
-                </DialogContent>
-            </Dialog>
+                <Dialog>
+                    <DialogTrigger asChild disabled={disable}>
+                        <Button>Next</Button>
+                    </DialogTrigger>
+
+                    <DialogContent className="h-full max-w-full rounded-none py-10 md:p-24">
+                        <Preview
+                            register={register}
+                            formState={formState}
+                            control={control}
+                            setImageUrl={setImageUrl}
+                            isFileLoading={isFileLoading}
+                            setIsFileLoading={setIsFileLoading}
+                        >
+                            <Button
+                                disabled={createStatus === 'executing' || editStatus === 'executing' || isFileLoading}
+                                onClick={handleSubmit(onSubmit)}
+                            >
+                                {isEdit ? 'Edit' : 'Publish'}
+                            </Button>
+                        </Preview>
+                    </DialogContent>
+                </Dialog>
+            </form>
         </div>
     );
 };
+
+const ReactQuillWithRef = forwardRef(function ReactQuillWithRef(props, ref) {
+    return <ReactQuill {...props} theme="bubble" placeholder="Tell your story..." />;
+});

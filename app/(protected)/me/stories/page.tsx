@@ -1,7 +1,9 @@
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { StoriesList } from './_components/stories-list';
+import { StoriesSketon } from './_components/stories-skeleton';
 
 const StoriesPage = () => {
     return (
@@ -14,7 +16,9 @@ const StoriesPage = () => {
                 </Button>
             </div>
 
-            <StoriesList />
+            <Suspense fallback={<StoriesSketon />}>
+                <StoriesList />
+            </Suspense>
         </>
     );
 };

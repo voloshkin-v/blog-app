@@ -11,7 +11,7 @@ export const Tooltip = ({ children }: Props) => {
     return (
         <TooltipProvider>
             <TooltipLib>
-                <TooltipTrigger asChild>
+                <TooltipTrigger asChild className="hidden lg:flex">
                     <Button variant="ghost" size="icon">
                         <Info className="h-4 w-4" />
                     </Button>

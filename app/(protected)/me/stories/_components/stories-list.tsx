@@ -1,26 +1,11 @@
-import { prisma } from '@/lib/db';
-import { currentUser } from '@/lib/session';
-import { Story } from './story-item';
+import { currentUser } from '@/lib/auth/current-user';
+import { getPublishedPosts } from '@/lib/db/queries/posts';
 
-const findPublishedPosts = async (authorId: string) => {
-    return await prisma.post.findMany({
-        where: {
-            authorId,
-        },
-        select: {
-            id: true,
-            title: true,
-            createdAt: true,
-        },
-        orderBy: {
-            createdAt: 'desc',
-        },
-    });
-};
+import { Story } from './story-item';
 
 export const StoriesList = async () => {
     const user = await currentUser();
-    const published = await findPublishedPosts(user?.id || '');
+    const published = await getPublishedPosts(user?.id || '');
 
     if (!published.length) {
         return <p>You have not published any public stories yet.</p>;

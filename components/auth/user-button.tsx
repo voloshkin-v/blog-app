@@ -1,7 +1,7 @@
 'use client';
 
 import { BookMarked, LogOut, User, Newspaper } from 'lucide-react';
-import { useCurrentUser } from '@/lib/hooks/use-current-user';
+import { useCurrentUser } from '@/lib/auth/use-current-user';
 import { logout } from '@/actions/auth';
 import Link from 'next/link';
 

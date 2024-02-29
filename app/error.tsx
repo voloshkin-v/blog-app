@@ -10,7 +10,8 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
 
     return (
         <div className="py container flex flex-col items-center gap-4">
-            <h2>Ooops, something went wrond</h2>
+            <h2>Ooops, something went wrong</h2>
+
             <Button onClick={() => reset()}>Try again</Button>
         </div>
     );

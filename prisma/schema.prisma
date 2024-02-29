@@ -39,7 +39,8 @@ model User {
 
   description String?
   posts       Post[]    @relation("WrittenPosts")
-  savedPosts  Post[]
+  savedPosts  Post[]    @relation("SavedPosts")
+  likedPosts  Post[]    @relation("LikedPosts")
   accounts    Account[]
 }
 
@@ -51,7 +52,8 @@ model Post {
   image       String?
   author      User     @relation("WrittenPosts", fields: [authorId], references: [id])
   authorId    String
-  savedByUser User[]
+  savedByUser User[]   @relation("SavedPosts")
+  likes       User[]   @relation("LikedPosts")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   topics      Topic[]

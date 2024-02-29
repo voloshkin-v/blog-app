@@ -3,7 +3,7 @@
 import { z } from 'zod';
 import { action } from '@/lib/safe-action';
 import { prisma } from '@/lib/db';
-import { currentUser } from '@/lib/session';
+import { currentUser } from '@/lib/auth/current-user';
 import { revalidatePath } from 'next/cache';
 
 const id = z.string();

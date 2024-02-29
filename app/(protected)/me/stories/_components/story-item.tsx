@@ -1,11 +1,14 @@
 import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
-import type { Post } from '@prisma/client';
 
 import { ListOptions } from './list-options';
 
 interface Props {
-    story: Pick<Post, 'id' | 'title' | 'createdAt'>;
+    story: {
+        title: string;
+        id: string;
+        createdAt: Date;
+    };
 }
 
 export const Story = ({ story }: Props) => {

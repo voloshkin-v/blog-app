@@ -1,4 +1,4 @@
-import { topicsService } from '@/lib/services/topics';
+import { getTopicsCount } from '@/lib/db/queries/topics';
 
 import { SearchTopic } from '@/app/topics/_components/search-topic';
 import { TopicList } from '@/app/topics/_components/topic-list';
@@ -16,7 +16,7 @@ const TopicsPage = async ({ searchParams }: TopicsPage) => {
     const query = searchParams?.query || '';
     const page = Number(searchParams?.page) || 1;
     const validatedPage = page > 0 ? page : 1;
-    const totalPage = await topicsService.getCount(query);
+    const totalPage = await getTopicsCount(query);
 
     return (
         <>

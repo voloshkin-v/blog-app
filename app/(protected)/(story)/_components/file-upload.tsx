@@ -17,9 +17,9 @@ interface FileWithPreview extends File {
 
 interface Props {
     className: string;
-    setImageUrl: (url: string) => void;
-    isFileLoading: boolean;
+    setImageUrl: (value: string) => void;
     setIsFileLoading: (value: boolean) => void;
+    isFileLoading: boolean;
 }
 
 const storage = getStorage(app);

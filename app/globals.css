@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 html,
-body {
+body,
+:root {
     height: 100%;
 }
 
@@ -147,4 +148,16 @@ body {
 
 .ql-editor.ql-blank::before {
     @apply !not-italic !text-muted-foreground;
+}
+
+.react-tagsinput {
+    @apply rounded !border-border;
+}
+
+.react-tagsinput-tag {
+    @apply !rounded !border-border !bg-secondary !font-fredoka !text-foreground;
+}
+
+.react-tagsinput-input {
+    @apply !font-fredoka !text-foreground;
 }

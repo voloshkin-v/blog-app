@@ -1,27 +1,24 @@
 import { notFound } from 'next/navigation';
 import pluralize from 'pluralize';
 import Link from 'next/link';
-import { topicsService } from '@/lib/services/topics';
+import { getPostsByTopicId } from '@/lib/db/queries/posts';
+import { getTopicById } from '@/lib/db/queries/topics';
 
 import { PostList } from '@/components/posts/post-list';
 import { Button } from '@/components/ui/button';
 import { SectionHeader } from '../_components/section-header';
 
 const TagPage = async ({ params: { id } }: { params: { id: string } }) => {
-    const query = await topicsService.findById(id);
+    const tag = await getTopicById(id);
 
-    if (!query) {
+    if (!tag) {
         notFound();
     }
 
     return (
         <>
-            <SectionHeader title={query.name}>
+            <SectionHeader title={tag.name}>
                 <div className="flex flex-col gap-4">
-                    <div>
-                        Topic · <span>{pluralize('post', query.posts.length, true)}</span>
-                    </div>
-
                     <Button variant="link" asChild>
                         <Link href="/topics">Back to all topics</Link>
                     </Button>
@@ -29,7 +26,7 @@ const TagPage = async ({ params: { id } }: { params: { id: string } }) => {
             </SectionHeader>
 
             <div className="py">
-                <PostList posts={query.posts} />
+                <PostList fetchData={() => getPostsByTopicId(id)} />
             </div>
         </>
     );

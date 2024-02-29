@@ -1,6 +1,5 @@
-import { topicsService } from '@/lib/services/topics';
-
 import { TopicItem } from '@/components/topics/topic-item';
+import { getTopics } from '@/lib/db/queries/topics';
 
 interface Props {
     query: string;
@@ -8,7 +7,7 @@ interface Props {
 }
 
 export const TopicList = async ({ query, page }: Props) => {
-    const { topics } = await topicsService.findAll(query, page);
+    const { topics } = await getTopics(query, page);
 
     if (!topics.length && query) {
         return (

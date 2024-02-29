@@ -1,14 +1,16 @@
 import { notFound } from 'next/navigation';
-import { authorService } from '@/lib/services/author';
 import Link from 'next/link';
-import { currentUser } from '@/lib/session';
-import { Button } from '@/components/ui/button';
-import { AuthorPosts } from './_components/author-posts';
+import { currentUser } from '@/lib/auth/current-user';
 import { Suspense } from 'react';
-import { Loader } from '@/components/shared/loader';
+import { getPosts } from '@/lib/db/queries/posts';
+
+import { Button } from '@/components/ui/button';
+import { PostsSkeleton } from '@/components/posts/posts-skeleton';
+import { PostList } from '@/components/posts/post-list';
+import { getAuthorById } from '@/lib/db/queries/author';
 
 const AuthorPage = async ({ params: { id } }: { params: { id: string } }) => {
-    const author = await authorService.findOne(id);
+    const author = await getAuthorById(id);
     const user = await currentUser();
 
     if (!author) {
@@ -24,8 +26,8 @@ const AuthorPage = async ({ params: { id } }: { params: { id: string } }) => {
                     <Link href="/posts">Explore all posts</Link>
                 </Button>
             ) : (
-                <Suspense fallback={<Loader />}>
-                    <AuthorPosts id={author.id} />
+                <Suspense fallback={<PostsSkeleton />}>
+                    <PostList fetchData={() => getPosts(id)} />
                 </Suspense>
             )}
         </>

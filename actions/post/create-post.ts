@@ -1,18 +1,10 @@
 'use server';
 
-import { z } from 'zod';
 import { action } from '@/lib/safe-action';
-import { currentUser } from '@/lib/session';
+import { currentUser } from '@/lib/auth/current-user';
 import { prisma } from '@/lib/db';
 import { redirect } from 'next/navigation';
-
-const createPostSchema = z.object({
-    title: z.string().min(1),
-    content: z.string().min(1),
-    preview: z.string().min(1),
-    image: z.string().optional(),
-    topicsList: z.string().array().optional(),
-});
+import { createPostSchema } from '@/lib/schemas';
 
 export const createPost = action(createPostSchema, async (data) => {
     const user = await currentUser();
@@ -21,7 +13,7 @@ export const createPost = action(createPostSchema, async (data) => {
         throw new Error('Session not found!');
     }
 
-    const { content, title, preview, image, topicsList } = data;
+    const { content, title, preview, image, topics } = data;
 
     const newPost = await prisma.post.create({
         data: {
@@ -31,7 +23,7 @@ export const createPost = action(createPostSchema, async (data) => {
             authorId: user.id,
             image,
             topics: {
-                connectOrCreate: topicsList?.map((topic) => ({
+                connectOrCreate: topics?.map((topic) => ({
                     where: {
                         name: topic,
                     },

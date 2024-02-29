@@ -1,13 +1,17 @@
+import type { Post } from '@/lib/db/types';
+
 import { PostItemRow } from '@/components/posts/post-item-row';
-import { Post } from '@/components/posts/types';
 
 interface Props {
-    posts: Post[];
+    fetchData: () => Promise<Post[]>;
+    noFoundPostMessage?: string;
 }
 
-export const PostList = async ({ posts }: Props) => {
+export const PostList = async ({ fetchData, noFoundPostMessage }: Props) => {
+    const posts = await fetchData();
+
     if (!posts.length) {
-        return <p>No posts found</p>;
+        return <p>{noFoundPostMessage || 'No posts found'}</p>;
     }
 
     return (

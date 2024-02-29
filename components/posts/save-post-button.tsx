@@ -1,16 +1,15 @@
 'use client';
 
-import { useCurrentUser } from '@/lib/hooks/use-current-user';
+import { useCurrentUser } from '@/lib/auth/use-current-user';
 import { PinOff, Pin } from 'lucide-react';
-import { SavedByUsers } from '@/components/posts/types';
+import type { SavedByUsers } from '@/lib/db/types';
 import { useToast } from '@/components/ui/use-toast';
 import { useState } from 'react';
 import { savePost } from '@/actions/post/save-post';
 import { unsavePost } from '@/actions/post/unsave-post';
-
-import { Button } from '@/components/ui/button';
-import { CheckAuthButton } from '@/components/auth/check-auth-button';
 import { useAction } from 'next-safe-action/hooks';
+
+import { CheckAuthButton } from '@/components/auth/check-auth-button';
 
 interface Props {
     postId: string;
@@ -19,13 +18,14 @@ interface Props {
 
 export const SavePostButton = ({ postId, savedByUser }: Props) => {
     const { toast } = useToast();
-
     const user = useCurrentUser();
     const isSaved = savedByUser.map((item) => item.id).includes(user?.id || '');
     const [saved, setSaved] = useState(isSaved);
 
     const { status: saveStatus, execute: save } = useAction(savePost, {
         onSuccess: () => {
+            setSaved(true);
+
             toast({
                 title: 'Post saved!',
             });
@@ -41,6 +41,8 @@ export const SavePostButton = ({ postId, savedByUser }: Props) => {
 
     const { status: unsaveStatus, execute: unsave } = useAction(unsavePost, {
         onSuccess: () => {
+            setSaved(false);
+
             toast({
                 title: 'Post unsaved!',
             });
@@ -55,35 +57,29 @@ export const SavePostButton = ({ postId, savedByUser }: Props) => {
     });
 
     const handleSave = () => {
-        if (!user?.id) return;
-
-        if (isSaved) {
-            setSaved(false);
+        if (saved) {
             unsave(postId);
         } else {
-            setSaved(true);
             save(postId);
         }
     };
 
     return (
-        <CheckAuthButton>
-            <Button
-                disabled={unsaveStatus === 'executing' || saveStatus === 'executing'}
-                variant="ghost"
-                onClick={handleSave}
-                className="flex cursor-pointer gap-2"
-            >
-                {saved ? (
-                    <>
-                        <PinOff className="h-4 w-4" /> Unsave
-                    </>
-                ) : (
-                    <>
-                        <Pin className="h-4 w-4" /> Save
-                    </>
-                )}
-            </Button>
+        <CheckAuthButton
+            className="flex cursor-pointer gap-2"
+            variant="secondary"
+            disabled={saveStatus === 'executing' || unsaveStatus === 'executing'}
+            onClick={handleSave}
+        >
+            {saved ? (
+                <>
+                    <PinOff className="h-4 w-4" /> Unsave
+                </>
+            ) : (
+                <>
+                    <Pin className="h-4 w-4" /> Save
+                </>
+            )}
         </CheckAuthButton>
     );
 };
