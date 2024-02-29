@@ -13,7 +13,7 @@ export const PostImage = ({ src, className = '', parentClassName = '' }: Props) 
     }
 
     return (
-        <div className={cn('relative h-40 w-40 max-w-40', parentClassName)}>
+        <div className={cn('relative h-40 w-40 max-w-40 bg-gray-100', parentClassName)}>
             <Image src={src} fill alt="Post image" className={cn('rounded object-cover', className)} />
         </div>
     );
